@@ -1,0 +1,10 @@
+{
+  "name": "deleteAnniversary",
+  "version": "1.0.0",
+  "description": "删除纪念日云函数",
+  "main": "index.js",
+  "permissions": {
+    "openapi": []
+  },
+  "env": "cloud1-0g6zs6zbbfe35404"
+}

@@ -1,0 +1,95 @@
+/* tabbar.wxss - 简洁精致的微信风格底部导航栏 */
+
+/* ==================== 导航栏容器 ==================== */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  z-index: 9999;
+  /* 顶部细线 */
+  border-top: 1rpx solid #E5E5E5;
+  /* 顶部阴影，微信风格 */
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.03);
+}
+
+/* ==================== 导航项 ==================== */
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rpx 0;
+  transition: all 0.2s;
+}
+
+.tab-item:active {
+  opacity: 0.7;
+}
+
+/* ==================== 图标 ==================== */
+.tab-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4rpx;
+}
+
+.icon-text {
+  font-size: 44rpx;
+  transition: transform 0.2s;
+}
+
+.tab-item.active .icon-text {
+  transform: scale(1.1);
+}
+
+/* 选中指示器 */
+.active-indicator {
+  position: absolute;
+  top: -4rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8rpx;
+  height: 8rpx;
+  background: var(--primary);
+  border-radius: 50%;
+}
+
+/* ==================== 文字 ==================== */
+.tab-text {
+  font-size: 22rpx;
+  color: var(--text-hint);
+  transition: all 0.2s;
+}
+
+.tab-item.active .tab-text {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* ==================== 中间突出项（可选）==================== */
+/* 如果需要中间有一个突出的发布按钮，可以使用以下样式 */
+/*
+.tab-item.center-item {
+  position: relative;
+}
+
+.tab-item.center-item::before {
+  content: '';
+  position: absolute;
+  top: -20rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: var(--primary-gradient);
+  border-radius: 50%;
+  box-shadow: 0 4rpx 16rpx rgba(255, 107, 107, 0.4);
+}
+*/

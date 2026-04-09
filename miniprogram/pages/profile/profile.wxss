@@ -1,0 +1,384 @@
+/* profile.wxss - 简洁精致的个人中心页面 */
+
+/* ==================== 页面布局 ==================== */
+.container {
+  min-height: 100vh;
+  background: var(--bg-color);
+  padding-bottom: calc(100rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+.page-content {
+  padding: var(--spacing-md);
+  padding-bottom: calc(200rpx + env(safe-area-inset-bottom));
+}
+
+/* ==================== 用户卡片 ==================== */
+.profile-card {
+  padding: var(--spacing-lg);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+}
+
+.profile-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-right: var(--spacing-md);
+  background: var(--primary-pale);
+}
+
+.profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-name {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.profile-status {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-top: 8rpx;
+}
+
+.profile-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1rpx solid var(--border-color);
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stat-label {
+  font-size: var(--font-xs);
+  color: var(--text-hint);
+  margin-top: 4rpx;
+}
+
+.stat-divider {
+  width: 1rpx;
+  height: 60rpx;
+  background: var(--border-color);
+}
+
+/* ==================== 绑定卡片 ==================== */
+.bind-card {
+  padding: var(--spacing-lg);
+  text-align: center;
+}
+
+.bind-title {
+  display: block;
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.bind-desc {
+  display: block;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+/* ==================== 分区 ==================== */
+.section {
+  margin-top: var(--spacing-lg);
+}
+
+.section-header {
+  margin-bottom: var(--spacing-sm);
+}
+
+.section-title {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ==================== 单元格 ==================== */
+.cell-group {
+  overflow: hidden;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  background: var(--bg-white);
+  transition: background 0.2s;
+}
+
+.cell:active {
+  background: var(--bg-gray);
+}
+
+.cell + .cell {
+  border-top: 1rpx solid var(--border-color);
+}
+
+.cell-title {
+  flex: 1;
+  font-size: var(--font-base);
+  color: var(--text-primary);
+}
+
+.cell-value {
+  font-size: var(--font-base);
+  color: var(--text-secondary);
+  margin-right: var(--spacing-xs);
+}
+
+.cell-arrow {
+  font-size: 32rpx;
+  color: var(--text-hint);
+}
+
+/* ==================== 绑定选项 ==================== */
+.bind-option {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  background: var(--bg-gray);
+  border-radius: var(--radius-medium);
+  margin-bottom: var(--spacing-sm);
+}
+
+.bind-option:last-child {
+  margin-bottom: 0;
+}
+
+.option-icon {
+  font-size: 48rpx;
+  margin-right: var(--spacing-sm);
+}
+
+.option-info {
+  flex: 1;
+}
+
+.option-title {
+  display: block;
+  font-size: var(--font-base);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.option-desc {
+  display: block;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-top: 4rpx;
+}
+
+/* ==================== 邀请码 ==================== */
+.invite-code-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--primary-pale);
+  border-radius: var(--radius-medium);
+  margin: var(--spacing-md) 0;
+}
+
+.invite-code {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 4rpx;
+}
+
+.copy-btn {
+  padding: var(--spacing-xs);
+}
+
+.copy-icon {
+  font-size: 40rpx;
+}
+
+.create-tip {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.create-hint {
+  display: block;
+  font-size: var(--font-sm);
+  color: var(--text-hint);
+  text-align: center;
+}
+
+/* ==================== 背景设置 ==================== */
+.bg-modal .modal-body {
+  padding: var(--spacing-md);
+}
+
+.page-selector {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+.page-tab {
+  flex: 1;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  background: var(--bg-gray);
+  border-radius: var(--radius-small);
+  transition: all 0.2s;
+}
+
+.page-tab.active {
+  background: var(--primary);
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.color-palette {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+.color-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.color-preview {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-small);
+  margin-bottom: 8rpx;
+}
+
+.color-item.selected .color-preview {
+  border: 4rpx solid var(--primary);
+}
+
+.color-name {
+  font-size: 18rpx;
+  color: var(--text-secondary);
+}
+
+.color-check {
+  position: absolute;
+  top: 8rpx;
+  right: 8rpx;
+  width: 32rpx;
+  height: 32rpx;
+  background: var(--primary);
+  color: #FFFFFF;
+  font-size: 18rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-md);
+  background: var(--bg-gray);
+  border-radius: var(--radius-medium);
+  border: 2rpx dashed var(--border-color);
+}
+
+.upload-icon {
+  font-size: 48rpx;
+  margin-bottom: 8rpx;
+}
+
+.upload-text {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+/* ==================== 编辑资料 ==================== */
+.avatar-edit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.avatar-preview {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  margin-bottom: var(--spacing-xs);
+}
+
+.avatar-hint {
+  font-size: var(--font-sm);
+  color: var(--primary);
+}
+
+.form-item {
+  margin-bottom: var(--spacing-sm);
+}
+
+.form-item:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  display: block;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.form-input {
+  width: 100%;
+  height: 88rpx;
+  background: var(--bg-gray);
+  border-radius: var(--radius-small);
+  padding: 0 var(--spacing-sm);
+  font-size: var(--font-base);
+}
+
+/* ==================== 退出登录 ==================== */
+.logout-section {
+  margin-top: var(--spacing-xl);
+}
+
+.logout-btn {
+  width: 100%;
+  color: var(--text-secondary);
+}

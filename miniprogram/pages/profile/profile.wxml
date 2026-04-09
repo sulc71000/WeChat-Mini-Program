@@ -1,0 +1,227 @@
+<view class="container">
+  <!-- 页面背景 -->
+  <view class="page-bg" style="{{containerStyle}}">
+    <view class="page-bg-mask"></view>
+  </view>
+
+  <!-- 主内容区域 -->
+  <view class="page-content">
+    <!-- 用户信息卡片 -->
+    <view class="profile-card card">
+      <view class="profile-header">
+        <image class="profile-avatar" src="{{userInfo.avatarUrl || '/images/avatar.png'}}" mode="aspectFill"></image>
+        <view class="profile-info">
+          <text class="profile-name">{{userInfo.nickName || '未登录'}}</text>
+          <text class="profile-status" wx:if="{{coupleInfo}}">❤️ 已绑定情侣</text>
+          <text class="profile-status" wx:else>💔 未绑定情侣</text>
+        </view>
+      </view>
+      <view class="profile-stats" wx:if="{{coupleInfo}}">
+        <view class="stat-item">
+          <text class="stat-value">{{loveDays}}</text>
+          <text class="stat-label">在一起</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-value">{{momentsCount}}</text>
+          <text class="stat-label">动态</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-value">{{photosCount}}</text>
+          <text class="stat-label">照片</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 情侣绑定区域 -->
+    <view class="section" wx:if="{{!coupleInfo}}">
+      <view class="bind-card card">
+        <text class="bind-title">绑定情侣</text>
+        <text class="bind-desc">和TA一起记录甜蜜时光</text>
+        <button class="btn btn-primary" bindtap="showBindOptions">立即绑定</button>
+      </view>
+    </view>
+
+    <!-- 情侣信息 -->
+    <view class="section" wx:if="{{coupleInfo}}">
+      <view class="section-header">
+        <text class="section-title">情侣信息</text>
+      </view>
+      <view class="cell-group card">
+        <view class="cell">
+          <text class="cell-title">TA的名字</text>
+          <text class="cell-value">{{coupleInfo.user2.nickName || '未设置'}}</text>
+        </view>
+        <view class="cell">
+          <text class="cell-title">在一起</text>
+          <text class="cell-value">{{coupleInfo.loveDateStr}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 设置选项 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">设置</text>
+      </view>
+      <view class="cell-group card">
+        <view class="cell" bindtap="editProfile">
+          <text class="cell-title">编辑资料</text>
+          <text class="cell-arrow">›</text>
+        </view>
+        <view class="cell" bindtap="showBackgroundSettings">
+          <text class="cell-title">背景设置</text>
+          <text class="cell-arrow">›</text>
+        </view>
+        <view class="cell" bindtap="showAbout">
+          <text class="cell-title">关于小程序</text>
+          <text class="cell-arrow">›</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 退出登录 -->
+    <view class="logout-section" wx:if="{{coupleInfo}}">
+      <button class="btn btn-text logout-btn" bindtap="logout">退出登录</button>
+    </view>
+  </view>
+</view>
+
+<!-- 绑定方式选择弹窗 -->
+<view class="modal-mask" wx:if="{{showBindModal}}" bindtap="hideBindModal"></view>
+<view class="modal-content" wx:if="{{showBindModal}}">
+  <view class="modal-header">
+    <text class="modal-title">绑定情侣</text>
+  </view>
+  <view class="modal-body">
+    <view class="bind-option" bindtap="createCouple">
+      <text class="option-icon">✨</text>
+      <view class="option-info">
+        <text class="option-title">创建心动日记</text>
+        <text class="option-desc">生成邀请码，让TA加入</text>
+      </view>
+    </view>
+    <view class="bind-option" bindtap="joinCouple">
+      <text class="option-icon">🔗</text>
+      <view class="option-info">
+        <text class="option-title">加入心动日记</text>
+        <text class="option-desc">输入对方分享的邀请码</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 创建情侣弹窗 -->
+<view class="modal-mask" wx:if="{{showCreateModal}}" bindtap="hideCreateModal"></view>
+<view class="modal-content" wx:if="{{showCreateModal}}">
+  <view class="modal-header">
+    <text class="modal-title">创建心动日记</text>
+  </view>
+  <view class="modal-body">
+    <text class="create-tip">分享以下邀请码给TA：</text>
+    <view class="invite-code-box">
+      <text class="invite-code">{{inviteCode}}</text>
+      <view class="copy-btn" bindtap="copyInviteCode">
+        <text class="copy-icon">📋</text>
+      </view>
+    </view>
+    <text class="create-hint">等待对方输入邀请码加入...</text>
+  </view>
+  <view class="modal-footer">
+    <button class="btn btn-default" bindtap="hideCreateModal">关闭</button>
+  </view>
+</view>
+
+<!-- 加入情侣弹窗 -->
+<view class="modal-mask" wx:if="{{showJoinModal}}" bindtap="hideJoinModal"></view>
+<view class="modal-content" wx:if="{{showJoinModal}}">
+  <view class="modal-header">
+    <text class="modal-title">加入心动日记</text>
+  </view>
+  <view class="modal-body">
+    <input class="form-input" placeholder="输入邀请码" value="{{inputCode}}" bindinput="onCodeInput" />
+  </view>
+  <view class="modal-footer">
+    <button class="btn btn-default" bindtap="hideJoinModal">取消</button>
+    <button class="btn btn-primary" bindtap="submitJoin" loading="{{loading}}">加入</button>
+  </view>
+</view>
+
+<!-- 背景设置弹窗 -->
+<view class="modal-mask" wx:if="{{showBackgroundDialog}}" bindtap="hideBgModal"></view>
+<view class="modal-content bg-modal" wx:if="{{showBackgroundDialog}}">
+  <view class="modal-header">
+    <text class="modal-title">背景设置</text>
+  </view>
+  <view class="modal-body">
+    <view class="page-selector">
+      <view 
+        class="page-tab {{selectedPage === 'home' ? 'active' : ''}}" 
+        bindtap="selectPage" 
+        data-page="home"
+      >空间</view>
+      <view 
+        class="page-tab {{selectedPage === 'moments' ? 'active' : ''}}" 
+        bindtap="selectPage" 
+        data-page="moments"
+      >动态</view>
+      <view 
+        class="page-tab {{selectedPage === 'anniversary' ? 'active' : ''}}" 
+        bindtap="selectPage" 
+        data-page="anniversary"
+      >纪念日</view>
+      <view 
+        class="page-tab {{selectedPage === 'album' ? 'active' : ''}}" 
+        bindtap="selectPage" 
+        data-page="album"
+      >相册</view>
+      <view 
+        class="page-tab {{selectedPage === 'profile' ? 'active' : ''}}" 
+        bindtap="selectPage" 
+        data-page="profile"
+      >我的</view>
+    </view>
+    
+    <view class="color-palette">
+      <view 
+        class="color-item {{currentBgId === item.id ? 'selected' : ''}}" 
+        wx:for="{{presetBackgrounds}}" 
+        wx:key="id"
+        bindtap="selectBg" 
+        data-bg="{{item}}"
+      >
+        <view class="color-preview" style="background: {{item.gradient}}"></view>
+        <text class="color-name">{{item.name}}</text>
+        <view class="color-check" wx:if="{{currentBgId === item.id}}">✓</view>
+      </view>
+    </view>
+
+    <view class="custom-upload" bindtap="uploadCustomBg">
+      <text class="upload-icon">🖼️</text>
+      <text class="upload-text">使用自定义图片</text>
+    </view>
+  </view>
+</view>
+
+<!-- 编辑资料弹窗 -->
+<view class="modal-mask" wx:if="{{showEditModal}}" bindtap="hideEditModal"></view>
+<view class="modal-content" wx:if="{{showEditModal}}">
+  <view class="modal-header">
+    <text class="modal-title">编辑资料</text>
+  </view>
+  <view class="modal-body">
+    <view class="avatar-edit" bindtap="chooseAvatar">
+      <image class="avatar-preview" src="{{editData.avatarUrl || userInfo.avatarUrl || '/images/avatar.png'}}" mode="aspectFill"></image>
+      <text class="avatar-hint">点击更换头像</text>
+    </view>
+    <view class="form-item">
+      <text class="form-label">昵称</text>
+      <input class="form-input" placeholder="输入昵称" value="{{editData.nickName}}" bindinput="onNickNameInput" />
+    </view>
+  </view>
+  <view class="modal-footer">
+    <button class="btn btn-default" bindtap="hideEditModal">取消</button>
+    <button class="btn btn-primary" bindtap="saveProfile" loading="{{loading}}">保存</button>
+  </view>
+</view>

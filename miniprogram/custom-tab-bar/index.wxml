@@ -1,0 +1,61 @@
+<view class="tab-bar">
+  <view 
+    class="tab-item {{active === 'moments' ? 'active' : ''}}" 
+    bindtap="switchTab" 
+    data-tab="moments"
+  >
+    <view class="tab-icon">
+      <text class="icon-text">{{active === 'moments' ? '📝' : '📝'}}</text>
+      <view class="active-indicator" wx:if="{{active === 'moments'}}"></view>
+    </view>
+    <text class="tab-text">动态</text>
+  </view>
+
+  <view 
+    class="tab-item {{active === 'home' ? 'active' : ''}}" 
+    bindtap="switchTab" 
+    data-tab="home"
+  >
+    <view class="tab-icon">
+      <text class="icon-text">{{active === 'home' ? '🏠' : '🏠'}}</text>
+      <view class="active-indicator" wx:if="{{active === 'home'}}"></view>
+    </view>
+    <text class="tab-text">空间</text>
+  </view>
+
+  <view 
+    class="tab-item {{active === 'anniversary' ? 'active' : ''}}" 
+    bindtap="switchTab" 
+    data-tab="anniversary"
+  >
+    <view class="tab-icon">
+      <text class="icon-text">{{active === 'anniversary' ? '🎂' : '🎂'}}</text>
+      <view class="active-indicator" wx:if="{{active === 'anniversary'}}"></view>
+    </view>
+    <text class="tab-text">纪念日</text>
+  </view>
+
+  <view 
+    class="tab-item {{active === 'album' ? 'active' : ''}}" 
+    bindtap="switchTab" 
+    data-tab="album"
+  >
+    <view class="tab-icon">
+      <text class="icon-text">{{active === 'album' ? '📷' : '📷'}}</text>
+      <view class="active-indicator" wx:if="{{active === 'album'}}"></view>
+    </view>
+    <text class="tab-text">相册</text>
+  </view>
+
+  <view 
+    class="tab-item {{active === 'profile' ? 'active' : ''}}" 
+    bindtap="switchTab" 
+    data-tab="profile"
+  >
+    <view class="tab-icon">
+      <text class="icon-text">{{active === 'profile' ? '👤' : '👤'}}</text>
+      <view class="active-indicator" wx:if="{{active === 'profile'}}"></view>
+    </view>
+    <text class="tab-text">我的</text>
+  </view>
+</view>

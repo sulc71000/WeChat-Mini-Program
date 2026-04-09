@@ -1,0 +1,10 @@
+{
+  "name": "addAnniversary",
+  "version": "1.0.0",
+  "description": "添加纪念日云函数",
+  "main": "index.js",
+  "permissions": {
+    "openapi": []
+  },
+  "env": "cloud1-0g6zs6zbbfe35404"
+}

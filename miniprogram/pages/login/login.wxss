@@ -1,0 +1,174 @@
+/* login.wxss - 简洁优雅的登录页面 */
+
+/* ==================== 页面布局 ==================== */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FFF5F5 0%, #FFFFFF 100%);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==================== 背景装饰 ==================== */
+.bg-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.deco-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 142, 142, 0.05));
+}
+
+.circle-1 {
+  width: 400rpx;
+  height: 400rpx;
+  top: -100rpx;
+  right: -100rpx;
+}
+
+.circle-2 {
+  width: 300rpx;
+  height: 300rpx;
+  top: 300rpx;
+  left: -150rpx;
+}
+
+.circle-3 {
+  width: 200rpx;
+  height: 200rpx;
+  bottom: 200rpx;
+  right: -50rpx;
+}
+
+/* ==================== 主内容 ==================== */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  padding-top: 200rpx;
+}
+
+/* ==================== Logo区域 ==================== */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 120rpx;
+}
+
+.logo-wrapper {
+  width: 200rpx;
+  height: 200rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-white);
+  border-radius: 50%;
+  box-shadow: var(--shadow-medium);
+  margin-bottom: var(--spacing-lg);
+}
+
+.logo-icon {
+  font-size: 120rpx;
+  animation: heartbeat 2s infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  10%, 30% { transform: scale(1.05); }
+  20% { transform: scale(1.1); }
+}
+
+.app-name {
+  font-size: 56rpx;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: var(--spacing-sm);
+  letter-spacing: 4rpx;
+}
+
+.slogan {
+  font-size: var(--font-base);
+  color: var(--text-secondary);
+}
+
+/* ==================== 登录区域 ==================== */
+.login-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-btn {
+  width: 100%;
+  max-width: 600rpx;
+  height: 96rpx;
+  background: var(--primary-gradient);
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  box-shadow: 0 8rpx 24rpx rgba(255, 107, 107, 0.3);
+  border: none;
+}
+
+.login-btn::after {
+  border: none;
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 12rpx rgba(255, 107, 107, 0.3);
+}
+
+.btn-icon {
+  font-size: var(--font-lg);
+}
+
+.btn-text {
+  font-size: var(--font-md);
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.tips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+  gap: 8rpx;
+}
+
+.tips-text {
+  font-size: var(--font-xs);
+  color: var(--text-hint);
+}
+
+.tips-link {
+  font-size: var(--font-xs);
+  color: var(--primary);
+}
+
+/* ==================== 底部装饰 ==================== */
+.footer-decoration {
+  padding: var(--spacing-lg);
+  padding-bottom: calc(var(--spacing-lg) + env(safe-area-inset-bottom));
+  text-align: center;
+}
+
+.footer-text {
+  font-size: var(--font-sm);
+  color: var(--text-hint);
+  letter-spacing: 2rpx;
+}

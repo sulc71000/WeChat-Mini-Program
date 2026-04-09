@@ -1,0 +1,232 @@
+<view class="page-wrap">
+
+  <!-- ===== 固定导航栏 ===== -->
+  <view class="nav-bar">
+    <view class="nav-bar-inner">
+      <text class="nav-title">纪念日</text>
+      <view class="nav-add-btn" bindtap="showAddDialog">
+        <text class="nav-add-icon">＋</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 导航栏占位 ===== -->
+  <view class="nav-placeholder"></view>
+
+  <!-- ===== 内容区 ===== -->
+  <scroll-view class="scroll-area" scroll-y enhanced show-scrollbar="{{false}}">
+
+    <!-- 置顶英雄卡片 -->
+    <view class="hero-card {{featuredItem.isPinned ? 'hero-pinned' : ''}}" wx:if="{{featuredItem}}" bindtap="onItemTap" data-item="{{featuredItem}}">
+      <!-- 置顶角标 -->
+      <view class="hero-pin-badge" wx:if="{{featuredItem.isPinned}}">📌</view>
+      <view class="hero-bg-deco"></view>
+      <view class="hero-content">
+        <view class="hero-left">
+          <text class="hero-label">{{featuredItem.type === 'future' ? '还有' : featuredItem.type === 'today' ? '就是今天' : '已经'}}</text>
+          <text class="hero-name">{{featuredItem.name}}</text>
+          <text class="hero-date">{{featuredItem.dateStr}}</text>
+        </view>
+        <view class="hero-right" wx:if="{{featuredItem.type !== 'today'}}">
+          <text class="hero-num">{{featuredItem.daysLeft}}</text>
+          <text class="hero-unit">天</text>
+        </view>
+        <view class="hero-today" wx:else>
+          <text class="hero-today-emoji">🎉</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 纪念日列表 -->
+    <view class="section" wx:if="{{anniversaryList.length > 0}}">
+      <view
+        class="list-item"
+        wx:for="{{anniversaryList}}"
+        wx:key="_id"
+        bindtap="onItemTap"
+        data-item="{{item}}"
+      >
+        <view class="item-left">
+          <view class="item-dot {{item.type === 'future' ? 'dot-future' : item.type === 'today' ? 'dot-today' : 'dot-past'}}"></view>
+          <view class="item-info">
+            <text class="item-name">{{item.name}}</text>
+            <text class="item-date-sub">{{item.dateStr}}</text>
+          </view>
+        </view>
+        <view class="item-right">
+          <view class="item-badge {{item.type === 'future' ? 'badge-future' : item.type === 'today' ? 'badge-today' : 'badge-past'}}">
+            <text class="badge-label">{{item.type === 'future' ? '还有' : item.type === 'today' ? '今天' : '已经'}}</text>
+            <text class="badge-num" wx:if="{{item.type !== 'today'}}">{{item.daysLeft}}</text>
+            <text class="badge-unit" wx:if="{{item.type !== 'today'}}">天</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{anniversaryList.length === 0 && !loading}}">
+      <text class="empty-icon">🗓️</text>
+      <text class="empty-title">还没有纪念日</text>
+      <text class="empty-desc">点击右上角 ＋ 添加重要日子</text>
+    </view>
+
+    <!-- 底部安全区占位 -->
+    <view class="bottom-safe"></view>
+
+  </scroll-view>
+
+</view>
+
+<!-- ===== 详情/编辑弹层（木板背景） ===== -->
+<view class="detail-mask" wx:if="{{showDetail}}" bindtap="hideDetail" animation="{{maskAnim}}"></view>
+<view class="detail-panel" wx:if="{{showDetail}}" animation="{{detailAnim}}">
+  <!-- 木纹背景装饰 -->
+  <view class="wood-bg">
+    <view class="wood-grain g1"></view>
+    <view class="wood-grain g2"></view>
+    <view class="wood-grain g3"></view>
+  </view>
+  <!-- 内容 -->
+  <view class="detail-inner">
+    <view class="detail-header">
+      <view class="detail-close" bindtap="hideDetail">
+        <text>✕</text>
+      </view>
+      <text class="detail-title">{{currentItem.name}}</text>
+      <view class="detail-edit-btn" bindtap="startEdit">
+        <text class="detail-edit-icon">✏️</text>
+      </view>
+    </view>
+
+    <!-- 大数字展示 -->
+    <view class="detail-num-area">
+      <text class="detail-big-label">{{currentItem.type === 'future' ? '还有' : currentItem.type === 'today' ? '就是今天' : '已经'}}</text>
+      <view class="detail-big-num-wrap" wx:if="{{currentItem.type !== 'today'}}">
+        <text class="detail-big-num">{{currentItem.daysLeft}}</text>
+        <text class="detail-big-unit">天</text>
+      </view>
+      <text class="detail-big-today" wx:else>🎉🎊🎉</text>
+    </view>
+
+    <view class="detail-info-row">
+      <text class="detail-info-label">日期</text>
+      <text class="detail-info-val">{{currentItem.date}}</text>
+    </view>
+    <view class="detail-info-row">
+      <text class="detail-info-label">重复</text>
+      <text class="detail-info-val">{{currentItem.repeatType === 'yearly' ? '每年重复' : '不重复'}}</text>
+    </view>
+    <view class="detail-info-row" wx:if="{{currentItem.calendarType === 'lunar'}}">
+      <text class="detail-info-label">日历</text>
+      <text class="detail-info-val">农历</text>
+    </view>
+
+    <!-- 操作按钮组：置顶 + 编辑 + 删除 -->
+    <view class="detail-actions">
+      <!-- 置顶 / 取消置顶按钮 -->
+      <view class="detail-action-btn {{currentItem.isPinned ? 'detail-unpin-action' : 'detail-pin-action'}}" bindtap="togglePin">
+        <text>{{currentItem.isPinned ? '⭐ 取消置顶' : '📌 置顶'}}</text>
+      </view>
+      <!-- 编辑按钮 -->
+      <view class="detail-action-btn detail-edit-action" bindtap="startEdit">
+        <text>✏️ 编辑</text>
+      </view>
+      <!-- 删除按钮 -->
+      <view class="detail-action-btn detail-delete-action" bindtap="doDeleteCurrent">
+        <text>🗑️ 删除</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- ===== 添加/编辑纪念日弹窗 ===== -->
+<view class="modal-mask" wx:if="{{showDialog}}" bindtap="hideDialog" animation="{{maskAnim2}}"></view>
+<view class="modal-box" wx:if="{{showDialog}}" animation="{{dialogAnim}}">
+  <view class="modal-handle"></view>
+  <view class="modal-header">
+    <text class="modal-title">{{isEditing ? '编辑纪念日' : '添加纪念日'}}</text>
+    <view class="modal-close" bindtap="hideDialog">✕</view>
+  </view>
+
+  <view class="modal-body">
+    <!-- 名称 -->
+    <view class="form-group">
+      <text class="form-label">名称</text>
+      <input
+        class="form-input"
+        placeholder="如：恋爱纪念日"
+        placeholder-class="input-placeholder"
+        value="{{formData.name}}"
+        bindinput="onNameInput"
+        maxlength="20"
+      />
+    </view>
+
+    <!-- 日历类型切换 -->
+    <view class="form-group">
+      <text class="form-label">日历类型</text>
+      <view class="calendar-switch">
+        <view class="switch-btn {{formData.calendarType === 'solar' ? 'switch-active' : ''}}" bindtap="setCalendarType" data-type="solar">
+          <text>公历</text>
+        </view>
+        <view class="switch-btn {{formData.calendarType === 'lunar' ? 'switch-active' : ''}}" bindtap="setCalendarType" data-type="lunar">
+          <text>农历</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 公历日期选择 -->
+    <view class="form-group" wx:if="{{formData.calendarType === 'solar'}}">
+      <text class="form-label">日期</text>
+      <picker mode="date" value="{{formData.date}}" bindchange="onDateChange" start="1900-01-01">
+        <view class="form-picker">
+          <text wx:if="{{formData.date}}" class="picker-value">{{formData.date}}</text>
+          <text wx:else class="picker-placeholder">请选择公历日期</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 农历日期选择（并排两列） -->
+    <view class="form-group" wx:if="{{formData.calendarType === 'lunar'}}">
+      <view class="date-row">
+        <view class="form-group-inner">
+          <text class="form-label">农历月</text>
+          <picker mode="selector" range="{{lunarMonths}}" value="{{formData.lunarMonthIndex}}" bindchange="onLunarMonthChange">
+            <view class="form-picker">
+              <text class="picker-value">{{formData.lunarMonth}}</text>
+              <text class="picker-arrow">›</text>
+            </view>
+          </picker>
+        </view>
+        <view class="form-group-inner">
+          <text class="form-label">农历日</text>
+          <picker mode="selector" range="{{lunarDays}}" value="{{formData.lunarDayIndex}}" bindchange="onLunarDayChange">
+            <view class="form-picker">
+              <text class="picker-value">{{formData.lunarDay}}</text>
+              <text class="picker-arrow">›</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+
+    <!-- 重复方式 -->
+    <view class="form-group">
+      <text class="form-label">重复</text>
+      <picker mode="selector" range="{{repeatOptions}}" range-key="name" value="{{repeatIndex}}" bindchange="onRepeatChange">
+        <view class="form-picker">
+          <text class="picker-value">{{repeatOptions[repeatIndex].name}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="modal-footer">
+    <button class="footer-btn cancel-btn" bindtap="hideDialog">取消</button>
+    <button class="footer-btn confirm-btn" bindtap="saveAnniversary" loading="{{loading}}">
+      {{isEditing ? '保存' : '添加'}}
+    </button>
+  </view>
+</view>

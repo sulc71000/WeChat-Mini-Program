@@ -1,0 +1,11 @@
+{
+  "name": "getMediaList",
+  "version": "1.0.0",
+  "description": "获取媒体列表云函数",
+  "main": "index.js",
+  "permissions": {
+    "openapi": []
+  },
+  "timeout": 60,
+  "env": "cloud1-0g6zs6zbbfe35404"
+}

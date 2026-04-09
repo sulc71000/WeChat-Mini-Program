@@ -1,0 +1,98 @@
+<view class="container">
+  <!-- 页面背景 -->
+  <view class="page-bg" style="{{containerStyle}}">
+    <view class="page-bg-mask"></view>
+  </view>
+
+  <!-- 主内容区域 -->
+  <view class="page-content">
+    <!-- 动态列表 -->
+    <view class="moment-list" wx:if="{{moments.length > 0}}">
+      <view class="moment-item card" wx:for="{{moments}}" wx:key="_id">
+        <!-- 用户信息 -->
+        <view class="moment-header">
+          <image class="moment-avatar" src="{{item.userInfo.avatarUrl || '/images/avatar.png'}}" mode="aspectFill"></image>
+          <view class="moment-user">
+            <text class="moment-name">{{item.userInfo.nickName || '匿名'}}</text>
+            <text class="moment-time">{{item.createTime}}</text>
+          </view>
+        </view>
+
+        <!-- 内容 -->
+        <view class="moment-content">
+          <text class="content-text">{{item.content}}</text>
+        </view>
+
+        <!-- 图片 -->
+        <view class="moment-images" wx:if="{{item.images && item.images.length > 0}}">
+          <view 
+            class="image-item {{item.images.length === 1 ? 'single' : ''}}" 
+            wx:for="{{item.images}}" 
+            wx:for-item="img"
+            wx:key="index"
+            bindtap="previewImage" 
+            data-url="{{img}}"
+            data-urls="{{item.images}}"
+          >
+            <image class="image-img" src="{{img}}" mode="{{item.images.length === 1 ? 'widthFix' : 'aspectFill'}}" lazy-load></image>
+          </view>
+        </view>
+
+        <!-- 操作栏 -->
+        <view class="moment-actions">
+          <view class="action-item" bindtap="likeMoment" data-id="{{item._id}}" data-index="{{index}}">
+            <text class="action-icon">{{item.isLiked ? '❤️' : '🤍'}}</text>
+            <text class="action-count" wx:if="{{item.likeCount > 0}}">{{item.likeCount}}</text>
+          </view>
+          <view class="action-item" bindtap="showComments" data-id="{{item._id}}" data-index="{{index}}">
+            <text class="action-icon">💬</text>
+            <text class="action-count" wx:if="{{item.commentCount > 0}}">{{item.commentCount}}</text>
+          </view>
+          <view class="action-item" bindtap="deleteMoment" data-id="{{item._id}}" wx:if="{{item.userId === currentUserOpenId}}">
+            <text class="action-icon">🗑️</text>
+          </view>
+        </view>
+
+        <!-- 评论列表 -->
+        <view class="moment-comments" wx:if="{{item.comments && item.comments.length > 0}}">
+          <view class="comment-item" wx:for="{{item.comments}}" wx:for-item="comment" wx:key="index">
+            <text class="comment-author">{{comment.userInfo.nickName || '匿名'}}：</text>
+            <text class="comment-text">{{comment.content}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{moments.length === 0 && !loading}}">
+      <text class="empty-icon">📝</text>
+      <text class="empty-title">还没有动态</text>
+      <text class="empty-desc">发布第一条动态，记录你们的甜蜜时刻</text>
+    </view>
+
+    <!-- 加载状态 -->
+    <view class="loading" wx:if="{{loading}}">
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+    </view>
+  </view>
+
+  <!-- 底部发布按钮 -->
+  <view class="fab" bindtap="goToPublish">
+    <text class="fab-icon">+</text>
+  </view>
+</view>
+
+<!-- 评论输入弹窗 -->
+<view class="modal-mask" wx:if="{{showCommentInput}}" bindtap="hideCommentInput"></view>
+<view class="comment-input-modal" wx:if="{{showCommentInput}}">
+  <input 
+    class="comment-input" 
+    placeholder="写下你的评论..." 
+    value="{{commentText}}" 
+    bindinput="onCommentInput"
+    focus="{{showCommentInput}}"
+  />
+  <button class="btn btn-primary btn-sm" bindtap="submitComment" data-id="{{currentCommentMomentId}}">发送</button>
+</view>

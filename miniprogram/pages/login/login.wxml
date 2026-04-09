@@ -1,0 +1,44 @@
+<view class="container">
+  <!-- 背景装饰 -->
+  <view class="bg-decoration">
+    <view class="deco-circle circle-1"></view>
+    <view class="deco-circle circle-2"></view>
+    <view class="deco-circle circle-3"></view>
+  </view>
+
+  <!-- 主内容 -->
+  <view class="main-content">
+    <!-- Logo区域 -->
+    <view class="logo-section">
+      <view class="logo-wrapper">
+        <text class="logo-icon">💕</text>
+      </view>
+      <text class="app-name">心动日记</text>
+      <text class="slogan">记录我们的甜蜜时光</text>
+    </view>
+
+    <!-- 登录区域 -->
+    <view class="login-section">
+      <button 
+        class="login-btn btn-primary"
+        open-type="getUserProfile" 
+        bindtap="handleGetUserProfile"
+      >
+        <text class="btn-icon">微信</text>
+        <text class="btn-text">授权登录</text>
+      </button>
+
+      <view class="tips">
+        <text class="tips-text">登录即表示同意</text>
+        <text class="tips-link">《用户协议》</text>
+        <text class="tips-text">和</text>
+        <text class="tips-link">《隐私政策》</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部装饰 -->
+  <view class="footer-decoration">
+    <text class="footer-text">用心记录 · 用爱守护</text>
+  </view>
+</view>

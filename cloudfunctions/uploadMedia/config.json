@@ -1,0 +1,10 @@
+{
+  "name": "uploadMedia",
+  "version": "1.0.0",
+  "description": "上传媒体文件云函数",
+  "main": "index.js",
+  "permissions": {
+    "openapi": ["cloud.uploadFile"]
+  },
+  "env": "cloud1-0g6zs6zbbfe35404"
+}

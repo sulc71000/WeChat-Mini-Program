@@ -1,0 +1,10 @@
+{
+  "name": "getAnniversaryList",
+  "version": "1.0.0",
+  "description": "获取纪念日列表云函数",
+  "main": "index.js",
+  "permissions": {
+    "openapi": []
+  },
+  "timeout": 60
+}

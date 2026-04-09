@@ -1,0 +1,147 @@
+<view class="container">
+  <!-- 页面背景 -->
+  <view class="page-bg" style="{{containerStyle}}">
+    <view class="page-bg-mask"></view>
+  </view>
+
+  <!-- 主内容区域 -->
+  <view class="page-content">
+    <!-- 顶部用户信息卡片 -->
+    <view class="profile-card" wx:if="{{coupleInfo}}">
+      <view class="profile-avatars">
+        <view class="avatar-wrapper me">
+          <image class="avatar-img" src="{{coupleInfo.user1.avatarUrl || '/images/avatar.png'}}" mode="aspectFill" wx:if="{{coupleInfo.user1.avatarUrl}}"></image>
+          <view class="avatar-placeholder" wx:if="{{!coupleInfo.user1.avatarUrl}}">我</view>
+        </view>
+        <view class="avatar-connector">
+          <text class="connector-text">❤️</text>
+        </view>
+        <view class="avatar-wrapper partner">
+          <image class="avatar-img" src="{{coupleInfo.user2.avatarUrl || '/images/avatar.png'}}" mode="aspectFill" wx:if="{{coupleInfo.user2.avatarUrl}}"></image>
+          <view class="avatar-placeholder" wx:if="{{!coupleInfo.user2.avatarUrl}}">TA</view>
+        </view>
+      </view>
+      <view class="profile-names">
+        <text class="name-text">{{coupleInfo.user1.nickName || '我'}}</text>
+        <text class="name-separator">&</text>
+        <text class="name-text">{{coupleInfo.user2.nickName || 'TA'}}</text>
+      </view>
+    </view>
+
+    <!-- 核心计时卡片 -->
+    <view class="timer-card card" wx:if="{{coupleInfo}}">
+      <view class="timer-main" bindtap="openAnniversaryDialog">
+        <view class="timer-number">
+          <text class="number-value">{{loveDays}}</text>
+          <text class="number-unit">天</text>
+        </view>
+        <text class="timer-label">在一起的日子</text>
+      </view>
+      <view class="timer-divider"></view>
+      <view class="timer-next" bindtap="openAnniversaryDialog">
+        <view class="next-info" wx:if="{{nextAnniversary}}">
+          <text class="next-name">{{nextAnniversary.name}}</text>
+          <text class="next-countdown" wx:if="{{!nextAnniversary.isToday}}">{{nextAnniversary.days}}天后</text>
+          <text class="next-countdown today" wx:else>就是今天 🎉</text>
+        </view>
+        <view class="next-empty" wx:else>
+          <text class="empty-text">添加纪念日</text>
+        </view>
+        <view class="next-arrow">
+          <text class="arrow-icon">›</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 快捷入口 -->
+    <view class="quick-entry" wx:if="{{coupleInfo}}">
+      <view class="entry-item" bindtap="goToMoments">
+        <view class="entry-icon">
+          <text class="icon-text">📝</text>
+        </view>
+        <text class="entry-name">动态</text>
+        <text class="entry-count" wx:if="{{moments.length > 0}}">{{moments.length}}</text>
+      </view>
+      <view class="entry-item" bindtap="goToAnniversary">
+        <view class="entry-icon">
+          <text class="icon-text">🎂</text>
+        </view>
+        <text class="entry-name">纪念日</text>
+        <text class="entry-count" wx:if="{{anniversaryList.length > 0}}">{{anniversaryList.length}}</text>
+      </view>
+      <view class="entry-item" bindtap="goToAlbum">
+        <view class="entry-icon">
+          <text class="icon-text">📷</text>
+        </view>
+        <text class="entry-name">相册</text>
+      </view>
+    </view>
+
+    <!-- 最近照片 -->
+    <view class="section" wx:if="{{recentPhotos.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">最近的照片</text>
+        <view class="section-more" bindtap="goToAlbum">
+          <text class="more-text">查看全部</text>
+          <text class="more-arrow">›</text>
+        </view>
+      </view>
+      <view class="photo-grid">
+        <view class="photo-item" wx:for="{{recentPhotos}}" wx:key="index" bindtap="previewImage" data-url="{{item}}">
+          <image class="photo-img" src="{{item}}" mode="aspectFill"></image>
+        </view>
+      </view>
+    </view>
+
+    <!-- 未绑定情侣 -->
+    <view class="empty-state" wx:if="{{!coupleInfo}}">
+      <text class="empty-icon">💕</text>
+      <text class="empty-title">还未绑定情侣</text>
+      <text class="empty-desc">在「我的」页面绑定情侣，开始你们的甜蜜旅程</text>
+      <button class="btn btn-primary mt-md" bindtap="goToProfile">去绑定</button>
+    </view>
+  </view>
+</view>
+
+<!-- 纪念日管理弹窗 -->
+<view class="modal-mask" wx:if="{{showAnniversaryDialog}}" bindtap="closeAnniversaryDialog"></view>
+<view class="modal-content anniversary-modal" wx:if="{{showAnniversaryDialog}}">
+  <view class="modal-header">
+    <text class="modal-title">纪念日管理</text>
+  </view>
+  
+  <scroll-view class="modal-body anniversary-list" scroll-y>
+    <view class="anniversary-item" wx:for="{{anniversaryList}}" wx:key="_id">
+      <view class="anniversary-info">
+        <text class="anniversary-name">{{item.name}}</text>
+        <text class="anniversary-date">{{item.date}} {{item.repeatType === 'yearly' ? '(每年)' : ''}}</text>
+      </view>
+      <view class="anniversary-delete" bindtap="deleteAnniversary" data-id="{{item._id}}" data-name="{{item.name}}">删除</view>
+    </view>
+    <view class="list-empty" wx:if="{{anniversaryList.length === 0}}">
+      <text class="empty-text">暂无纪念日</text>
+    </view>
+  </scroll-view>
+
+  <view class="modal-footer">
+    <view class="add-form">
+      <view class="form-row">
+        <input class="form-input" placeholder="名称" value="{{newAnniversary.name}}" bindinput="onNameInput" />
+      </view>
+      <view class="form-row">
+        <picker mode="date" value="{{newAnniversary.date}}" bindchange="onDateChange">
+          <view class="form-picker">
+            <text wx:if="{{newAnniversary.date}}">{{newAnniversary.date}}</text>
+            <text class="placeholder" wx:else>选择日期</text>
+          </view>
+        </picker>
+        <picker mode="selector" range="{{repeatTypeOptions}}" range-key="name" bindchange="onRepeatTypeChange">
+          <view class="form-picker">
+            <text>{{repeatTypeLabels[newAnniversary.repeatType] || '重复'}}</text>
+          </view>
+        </picker>
+      </view>
+      <button class="btn btn-primary btn-block" bindtap="addAnniversary" loading="{{loading}}">添加纪念日</button>
+    </view>
+  </view>
+</view>

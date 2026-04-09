@@ -1,0 +1,97 @@
+<view class="container">
+  <!-- 页面背景 -->
+  <view class="page-bg" style="{{containerStyle}}">
+    <view class="page-bg-mask"></view>
+  </view>
+
+  <!-- 主内容区域 -->
+  <view class="page-content">
+    <!-- 相册选择 -->
+    <view class="album-tabs" wx:if="{{albums.length > 0}}">
+      <view 
+        class="tab-item {{currentAlbumIndex === index ? 'active' : ''}}" 
+        wx:for="{{albums}}" 
+        wx:key="index"
+        bindtap="selectAlbum" 
+        data-index="{{index}}"
+      >
+        <text class="tab-name">{{item.name}}</text>
+        <text class="tab-count" wx:if="{{item.count > 0}}">{{item.count}}</text>
+      </view>
+    </view>
+
+    <!-- 照片网格 -->
+    <view class="photo-grid" wx:if="{{currentPhotos.length > 0}}">
+      <view 
+        class="photo-item" 
+        wx:for="{{currentPhotos}}" 
+        wx:key="index"
+        bindtap="previewPhoto" 
+        data-index="{{index}}"
+      >
+        <image class="photo-img" src="{{item.mediaUrl}}" mode="aspectFill" lazy-load></image>
+        <view class="photo-overlay">
+          <text class="photo-date">{{item.createTimeStr}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{currentPhotos.length === 0 && !loading}}">
+      <text class="empty-icon">📷</text>
+      <text class="empty-title">还没有照片</text>
+      <text class="empty-desc">上传你们的甜蜜照片，记录每一个美好瞬间</text>
+    </view>
+
+    <!-- 加载状态 -->
+    <view class="loading" wx:if="{{loading}}">
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+    </view>
+  </view>
+
+  <!-- 上传按钮 -->
+  <view class="fab" bindtap="chooseImage">
+    <text class="fab-icon">+</text>
+  </view>
+
+  <!-- 创建相册弹窗 -->
+  <view class="modal-mask" wx:if="{{showCreateAlbum}}" bindtap="hideCreateAlbum"></view>
+  <view class="modal-content" wx:if="{{showCreateAlbum}}">
+    <view class="modal-header">
+      <text class="modal-title">创建相册</text>
+    </view>
+    <view class="modal-body">
+      <input class="form-input" placeholder="输入相册名称" value="{{newAlbumName}}" bindinput="onAlbumNameInput" />
+    </view>
+    <view class="modal-footer">
+      <button class="btn btn-default" bindtap="hideCreateAlbum">取消</button>
+      <button class="btn btn-primary" bindtap="createAlbum">创建</button>
+    </view>
+  </view>
+</view>
+
+<!-- 图片预览 -->
+<view class="preview-mask" wx:if="{{previewIndex >= 0}}" bindtap="closePreview">
+  <swiper 
+    class="preview-swiper" 
+    current="{{previewIndex}}"
+    bindchange="onPreviewChange"
+  >
+    <swiper-item wx:for="{{currentPhotos}}" wx:key="index">
+      <image class="preview-img" src="{{item.mediaUrl}}" mode="widthFix" bindtap="closePreview"></image>
+    </swiper-item>
+  </swiper>
+  <view class="preview-footer">
+    <text class="preview-count">{{previewIndex + 1}} / {{currentPhotos.length}}</text>
+    <view class="preview-actions">
+      <view class="preview-action" bindtap="downloadPhoto">
+        <text class="action-icon">📥</text>
+      </view>
+      <view class="preview-action" bindtap="deletePhoto" data-index="{{previewIndex}}">
+        <text class="action-icon">🗑️</text>
+      </view>
+    </view>
+  </view>
+</view>

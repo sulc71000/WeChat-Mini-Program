@@ -1,0 +1,16 @@
+{
+  "name": "loversspace",
+  "version": "1.0.0",
+  "description": "心动日记小程序",
+  "main": "app.js",
+  "scripts": {
+    "dev": "echo \"Run in WeChat DevTools\"",
+    "build": "echo \"Build complete\""
+  },
+  "keywords": ["weapp", "vant"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@vant/weapp": "^1.11.0"
+  }
+}

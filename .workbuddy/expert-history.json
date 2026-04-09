@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "sessions": {
+    "c2503fced2d54560a3a4da4d02b60874": [
+      {
+        "expertId": "VisualStorytellingExpert",
+        "name": "Eva",
+        "profession": "视觉叙事专家",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/01-Design/VisualStorytellingExpert/VisualStorytellingExpert.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/01-Design/VisualStorytellingExpert/VisualStorytellingExpert_zh.md",
+        "usedAt": 1775748057366,
+        "industryId": "01-Design"
+      },
+      {
+        "expertId": "AiEngineer",
+        "name": "Amy",
+        "profession": "AI工程师",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/02-Engineering/AiEngineer/AiEngineer.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/02-Engineering/AiEngineer/AiEngineer_zh.md",
+        "usedAt": 1775726056451,
+        "industryId": "02-Engineering"
+      },
+      {
+        "expertId": "WeChatMiniProgramDeveloper",
+        "name": "Cody",
+        "profession": "微信小程序开发者",
+        "avatarUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/avatars/02-Engineering/WeChatMiniProgramDeveloper/WeChatMiniProgramDeveloper.png",
+        "promptUrl": "https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/experts/experts/02-Engineering/WeChatMiniProgramDeveloper/WeChatMiniProgramDeveloper_zh.md",
+        "usedAt": 1775716895612,
+        "industryId": "02-Engineering"
+      }
+    ]
+  },
+  "lastUpdated": 1775750997499
+}
