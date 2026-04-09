@@ -44,7 +44,7 @@
     "swc": false,
     "disableSWC": true
   },
-  "appid": "wx99854ff626dc7d31",
+  "appid": "YOUR_APPID",
   "projectname": "LoversSpace",
   "libVersion": "2.20.1",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",

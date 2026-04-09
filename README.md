@@ -66,10 +66,15 @@
 
 ## 📱 体验方式
 
-1. 下载微信开发者工具
-2. 导入项目，填入 AppID
-3. 开通云开发环境
-4. 编译预览
+1. 下载 [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
+2. 导入项目
+3. **⚠️ 重要：替换 AppID**
+   - 打开 `project.config.json`
+   - 将 `YOUR_APPID` 替换为你的小程序 AppID
+   - 在 [微信公众平台](https://mp.weixin.qq.com/) 获取 AppID
+4. 开通云开发环境（免费）
+5. 上传云函数：在 `cloudfunctions` 目录右键 → "上传并部署"
+6. 编译预览
 
 ## 💡 技术亮点
 
